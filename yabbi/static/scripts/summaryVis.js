@@ -1,7 +1,7 @@
-// var d = new Date()
-// var d1 = d3.timeHour.offset(d, 2)
-// var d2 = d3.timeHour.offset(d, 4)
-//var experiments = [{time: d, values: [0,1], x:1.318999999999999950,y:-3.967999999999999861,z:-8.551000000000000512},{time: d1, values: [0,1], x:4.208000000000000007,y:-6.014000000000000457,z:-8.095999999999999375},{time: d2, values: [1,1], x:7.074000000000000021,y:-9.483000000000000318,z:-7.501000000000000512}]
+var d = new Date()
+var d1 = d3.timeHour.offset(d, 2)
+var d2 = d3.timeHour.offset(d, 4)
+var experiments = [{time: d, values: [0,1], x:1.318999999999999950,y:-3.967999999999999861,z:-8.551000000000000512},{time: d1, values: [0,1], x:4.208000000000000007,y:-6.014000000000000457,z:-8.095999999999999375},{time: d2, values: [1,1], x:7.074000000000000021,y:-9.483000000000000318,z:-7.501000000000000512}]
 
 let allData = []
 let initialised = false
@@ -22,9 +22,10 @@ runSummaryVis = function (data) {
 
   // ToDo: fix this shouldn't be done.
   allData.push(currentPoint)
-  let ndx = crossfilter(allData)
+  let ndx = crossfilter(experiments)
   if (initialised === false) {
-    var extents = getMinMax(allData)
+
+    var extents = getMinMax(experiments)
     var min = extents.min
     var max = extents.max
     makeBoxPlot(ndx, colorScale)
