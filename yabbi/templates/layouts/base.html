@@ -59,16 +59,26 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/96/three.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.7.0/d3.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.6/dc.min.css" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.6/dc.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/3.0.6/dc.min.js.map" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js" ></script>
     <script
-          src="{{ url_for('static', filename='scripts/main.js') }}">
+          src="{{ url_for('static', filename='scripts/vendor/crossfilter.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/d3.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/dc.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/lodash.min.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/orbitControls.min.js') }}">
     </script>
     <script
           src="{{ url_for('static', filename='scripts/3dvis.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/summaryVis.js') }}">
     </script>
   </body>
 </html>
