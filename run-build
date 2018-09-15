@@ -1,0 +1,2 @@
+sudo find . -type d -name __pycache__ -exec rm -r {} \+
+docker-compose up --build
