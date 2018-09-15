@@ -13,9 +13,8 @@ const getData = function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
-          console.log(data)
           // ToDo: something with the data
-          runSummaryVis(data)
+          // runSummaryVis(data)
           let threeD_attr = set_up_3D_attr()
           draw_3D_nodes(data["3ddata"], threeD_attr)
       },
