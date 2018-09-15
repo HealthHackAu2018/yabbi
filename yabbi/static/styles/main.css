@@ -12,6 +12,12 @@ body {
   margin-bottom: 60px;
 }
 
+#threedvis {
+  width: 500px;
+  height: 400px;
+  background-color: black;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
