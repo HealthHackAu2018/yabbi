@@ -6,18 +6,18 @@ class Logic:
  #   default_frame = {'meta': {'3ddata':{'values':{'strain':0}}},'time': 0,'3ddata':[]}
 
     def __init__(self):
-        nodes_filename = '../../../testdata/nodes.csv'
-        strains_filename = '../../../testdata/strains_10s.csv'
+        nodes_filename = 'testdata/nodes.csv'
+        strains_filename = 'testdata/strains_10s.csv'
         self.freq = 200 #Hz
         self.delay = 1./self.freq
-        self.nodes = pd.read_csv(nodes_filename, delimiter=',', dtype=np.float64) 
-        self.strains = pd.read_csv(strains_filename, delimiter=',', dtype=np.float64) 
-        self.times = np.arange(0,self.strains.shape[0])*self.delay    
-        self.maxct = self.strains.shape[0]    
+        self.nodes = pd.read_csv(nodes_filename, delimiter=',', dtype=np.float64)
+        self.strains = pd.read_csv(strains_filename, delimiter=',', dtype=np.float64)
+        self.times = np.arange(0,self.strains.shape[0])*self.delay
+        self.maxct = self.strains.shape[0]
         self.ct = 0
 
     def read_in_data(self):
-        frame = {'meta': {'3ddata':{'values':{'strain':0}}},'time': 0,'3ddata':[]}  
+        frame = {'meta': {'3ddata':{'values':{'strain':0}}},'time': 0,'3ddata':[]}
         frame['time'] = self.times[self.ct]
         vIdx = self.ct % self.maxct
         for i in range(self.nodes.shape[0]):
@@ -26,6 +26,3 @@ class Logic:
             frame['3ddata'].append(pos)
         self.ct += 1
         return frame
-
-            
-            
