@@ -19,12 +19,12 @@ class Logic:
     def read_in_data(self):
         frame = {'meta': {'3ddata':{'values':{'strain':0}}},'time': 0,'3ddata':[]}  
         frame['time'] = self.times[self.ct]
-        vIdx = self.ct % self.maxct
         for i in range(self.nodes.shape[0]):
             pos = {'x': self.nodes.iloc[i,0],'y': self.nodes.iloc[i,1],'z': self.nodes.iloc[i,2],'values':[]}
-            pos['values'].append(self.strains.iloc[vIdx, i])
+            pos['values'].append(self.strains.iloc[self.ct, i])
             frame['3ddata'].append(pos)
         self.ct += 1
+        self.ct = self.ct % self.maxct
         return frame
 
             
