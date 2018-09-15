@@ -15,7 +15,7 @@ function initializePointCloud(scene, arraySize) {
     for (var x = 0; x < arraySize; x++) {
         var geometry = new THREE.Geometry();
         geometry.vertices.push(new THREE.Vector3(0,0,0));
-        var material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE, 
+        var material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE,
                 color: 0x0000ff});
         var point = new THREE.Points(geometry, material);
         points.push(point);
@@ -27,7 +27,7 @@ function initializePointCloud(scene, arraySize) {
 /** Initialise the scene, camera, points array etc */
 function init() {
     var scene = new THREE.Scene();
-    var camera = new THREE.PerspectiveCamera( 75, 
+    var camera = new THREE.PerspectiveCamera( 75,
             window.innerWidth/window.innerHeight, 0.1, 1000 );
     var renderer = new THREE.WebGLRenderer();
     renderer.setSize( window.innerWidth, window.innerHeight );
