@@ -22,10 +22,10 @@ runSummaryVis = function (data) {
 
   // ToDo: fix this shouldn't be done.
   allData.push(currentPoint)
-  let ndx = crossfilter(experiments)
+  let ndx = crossfilter(allData)
   if (initialised === false) {
 
-    var extents = getMinMax(experiments)
+    var extents = getMinMax(allData)
     var min = extents.min
     var max = extents.max
     makeBoxPlot(ndx, colorScale)
@@ -39,10 +39,10 @@ runSummaryVis = function (data) {
 /**
  * Helper function to get the min time of a dataset
  */
-getMinMax = function (experiments) {
+getMinMax = function (allData) {
   let min = new Date();
   let max = new Date();
-  for (var e in experiments) {
+  for (var e in allData) {
     if (e.time < min) {
       min = e.time
     }
@@ -63,6 +63,7 @@ makeBoxPlot = function (ndx, colorScale) {
   let xDimension = ndx.dimension(function (d) {
       return d.x;
   })
+  console.log(xDimension);
 
   let valuesGroup = xDimension.group().reduce(
     function (p, v) {
@@ -95,6 +96,7 @@ makeBoxPlot = function (ndx, colorScale) {
     .elasticY(true)
     .elasticX(true)
     .colors(colorScale)
+    .yAxisPadding('10%')
 }
 
 
@@ -109,6 +111,7 @@ makeLineChart = function (ndx, colorScale, min, max) {
   let timeDimension = ndx.dimension(function (d) {
       return d3.timeSecond(new Date(d.time))
   })
+  console.log(timeDimension);
 
   /**
    * Here you are grouping based on a particular index value (i.e. the
@@ -135,4 +138,5 @@ makeLineChart = function (ndx, colorScale, min, max) {
     .xAxisLabel("Time", 100)
     .group(timeGroup)
     .colors(colorScale)
+    .yAxisPadding('10%')
 }
