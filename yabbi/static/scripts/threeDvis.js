@@ -148,7 +148,7 @@ var draw_3D_nodes = function (data, threeD_attr) {
         var x = -xScale(unfiltered[i].x);
         var y = -yScale(unfiltered[i].y);
         var z = zScale(unfiltered[i].z);
-        var geometry = new THREE.SphereGeometry(3, 20, 30, 0, Math.PI * 2, 0, Math.PI * 2);
+        var geometry = new THREE.SphereGeometry(3, 10, 15, 0, Math.PI * 2, 0, Math.PI * 2);
         var material = new THREE.MeshBasicMaterial({
           color: unfiltered[i].colour
         } );
