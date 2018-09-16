@@ -17,8 +17,7 @@ runSummaryVis = function (data) {
   //console.log(currentPoint);
   //console.log(data);
   //console.log(data[0]);
-  var currentPoint = 1010;
-  var strain = data[currentPoint][3];
+  var strain = data[userSelectedIndex][3];
   //console.log(data[currentPoint]);
   OnNewData(strain);
   //getPointTimeSeries(0);
@@ -55,4 +54,11 @@ makeBoxPlot = function (ndx, colorScale) {
  * A Line chart
  */
 makeLineChart = function (ndx, colorScale, min, max) {
+}
+
+
+
+setInspectNode = function (v) {
+  userSelectedIndex = parseInt(v);
+  ResetData();
 }
