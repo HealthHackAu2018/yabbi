@@ -14,7 +14,6 @@ class Logic:
         self.strains = pd.read_csv(strains_filename, delimiter=',', dtype=np.float64)
         self.data = []
         for i in range(self.strains.shape[0]):
-            print(i)
             frame = np.empty([self.nodes.shape[0], self.nodes.shape[1]+1])
             frame[:,0:3] = self.nodes.values
             frame[:,3] = self.strains.values[i,:-1].T
@@ -25,6 +24,6 @@ class Logic:
     def read_in_data(self):
        
         row = self.ct % self.maxct
-        self.ct += 4
+        self.ct += 1
         self.ct = self.ct % len(self.data)
         return self.data[self.ct]
