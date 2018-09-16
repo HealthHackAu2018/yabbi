@@ -6,6 +6,7 @@
  var interval = 1000;  // 1000 = 1 second, 3000 = 3 seconds
 
 const getData = function () {
+  console.log("Updating");
   $.ajax({
       type: 'POST',
       url: '/get_info',

@@ -1,4 +1,4 @@
-const DEFAULT_POINT_SIZE = 4;
+const DEFAULT_POINT_SIZE = 2;
 const DIV_ELEMENT_ID = 'threedvis'; // The div for three.js to work in
 const ORBIT_LOOKAT_COORD = new THREE.Vector3(0, 0, 5); // Where the camera points
 
