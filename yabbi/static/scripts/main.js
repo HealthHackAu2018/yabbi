@@ -6,7 +6,6 @@
  var interval = 1000;  // 1000 = 1 second, 3000 = 3 seconds
 
 const getData = function () {
-  console.log("Updating");
   $.ajax({
       type: 'POST',
       url: '/get_info',
@@ -14,7 +13,6 @@ const getData = function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
-          console.log(data)
           // ToDo: something with the data
           if (is3dVisInitialized === false) {
               initialize3dVis(data);
@@ -27,7 +25,7 @@ const getData = function () {
      },
      complete: function (data) {
         // Schedule the next
-        // setTimeout(getData, interval);
+        getData();
 }
    });
 }

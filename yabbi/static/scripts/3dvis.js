@@ -21,7 +21,9 @@ update3dVis = function (newData) {
         points[i].geometry.vertices[0].z = newData["3ddata"][i].z;
         let newColor = dataToColor(newData["3ddata"][i].values[0]);
         points[i].material.color.set(newData[0], newData[1], newData[2]);
+        points[i].material.needsUpdate = true;
     }
+    render();
 }
 
 /** Convert a data value to rgb color array eg [0.2, 0.5, 1.0]
@@ -69,7 +71,7 @@ initialize3dVis = function (data) {
     // Create points and add to scene. points is an array of THREE.Points.
     points = initializePointCloud(scene, data);
     is3dVisInitialized = true;
-    pointCloudAnimate();
+    //pointCloudAnimate();
 }
 
 /** Return an array of Points objects which each contain a point. To access:
