@@ -12,16 +12,19 @@ class Logic:
         self.sample_time = 1./self.freq
         self.nodes = pd.read_csv(nodes_filename, delimiter=',', dtype=np.float64)
         self.strains = pd.read_csv(strains_filename, delimiter=',', dtype=np.float64)
+        self.data = []
+        for i in range(self.strains.shape[0]):
+            print(i)
+            frame = np.empty([self.nodes.shape[0], self.nodes.shape[1]+1])
+            frame[:,0:3] = self.nodes.values
+            frame[:,3] = self.strains.values[i,:-1].T
+        self.data.append(frame)
         self.maxct = self.strains.shape[0]
         self.ct = 0
 
     def read_in_data(self):
-        frame = {'meta': {'3ddata':{'values':{'strain':0}}},'time': 0,'3ddata':[]}
-        frame['time'] = self.ct*self.sample_time
+       
         row = self.ct % self.maxct
-        for i in range(self.nodes.shape[0]):
-            pos = {'x': self.nodes.iloc[i,0],'y': self.nodes.iloc[i,1],'z': self.nodes.iloc[i,2],'values':[]}
-            pos['values'].append(self.strains.iloc[row, i])
-            frame['3ddata'].append(pos)
         self.ct += 4
-        return frame
+        self.ct = self.ct % len(self.data)
+        return self.data[self.ct]
