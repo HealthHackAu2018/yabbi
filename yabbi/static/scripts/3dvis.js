@@ -19,6 +19,7 @@ update3dVis = function (newData) {
         points[i].geometry.vertices[0].x = newData["3ddata"][i].x;
         points[i].geometry.vertices[0].y = newData["3ddata"][i].y;
         points[i].geometry.vertices[0].z = newData["3ddata"][i].z;
+        points[i].geometry.needsUpdate = true;
         let newColor = dataToColor(newData["3ddata"][i].values[0]);
         points[i].material.color.set(newData[0], newData[1], newData[2]);
         points[i].material.needsUpdate = true;

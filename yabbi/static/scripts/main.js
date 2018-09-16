@@ -13,6 +13,10 @@ const getData = function () {
       contentType: "application/json; charset=utf-8",
       dataType: "json",
       success: function(data) {
+<<<<<<< HEAD
+=======
+          //console.log(data)
+>>>>>>> 98b83cc105c7bda64ed3b6cdec58e158cbe520a6
           // ToDo: something with the data
           if (is3dVisInitialized === false) {
               initialize3dVis(data);
