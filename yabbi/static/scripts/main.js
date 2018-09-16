@@ -15,9 +15,11 @@ const getData = function () {
       success: function(data) {
           console.log(data)
           // ToDo: something with the data
+          if (is3dVisInitialized === false) {
+              initialize3dVis(data);
+          }
+          update3dVis(data);
           runSummaryVis(data)
-          let threeD_attr = set_up_3D_attr()
-          draw_3D_nodes(data["3ddata"], threeD_attr)
       },
       error: function (err) {
        console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
