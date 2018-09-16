@@ -46,6 +46,10 @@
       <div class="md-margin-top">{% block heading %}{% endblock %}</div>
       {% block body %}{% endblock %}
 
+
+      Inspect node #<input type="number" name="node" min="0" max="2040" value="0" onchange="setInspectNode(this.value)"><br/>
+      Strain limit 1<input type="number" name="limit1" min="0.0" max="1.0" value="0.05" step="0.005" onchange="setStrain1(this.value)"><br/>
+      Strain limit 2<input type="number" name="limit2" min="0.0" max="1.0" value="0.07" step="0.005" onchange="setStrain2(this.value)"><br/>
     </main>
 
     <footer class="footer text-center">
