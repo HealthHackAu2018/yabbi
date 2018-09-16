@@ -17,7 +17,7 @@ runSummaryVis = function (data) {
   //console.log(currentPoint);
   //console.log(data);
   //console.log(data[0]);
-  var currentPoint = 10;
+  var currentPoint = 1010;
   var strain = data[currentPoint][3];
   //console.log(data[currentPoint]);
   OnNewData(strain);

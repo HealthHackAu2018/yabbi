@@ -6,9 +6,6 @@
  var interval = 20;  // 1000 = 1 second, 3000 = 3 seconds
 var f = 0;
 const getData = function () {
-
-  if (f==0) { f = 1; console.log("getData()   " + performance.now()); }
-
   $.ajax({
       type: 'POST',
       url: '/get_info',
@@ -28,7 +25,7 @@ const getData = function () {
      },
      complete: function (data) {
         // Schedule the next
-        //setTimeout(getData, interval);
+        getData();
 }
    });
 }

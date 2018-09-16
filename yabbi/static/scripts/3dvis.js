@@ -1,9 +1,10 @@
-const DEFAULT_POINT_SIZE = 2;
+const DEFAULT_POINT_SIZE = 12;
 const DIV_ELEMENT_ID = 'threedvis'; // The div for three.js to work in
 const ORBIT_LOOKAT_COORD = new THREE.Vector3(0, 0, 5); // Where the camera points
 
 var is3dVisInitialized = false;
 var camera, controls, scene, renderer, points;
+var pointSprite = new THREE.TextureLoader().load( 'static/textures/disc.png' );
 
 /** Update the position and color of 3d scatterplot points.
  * 
@@ -19,8 +20,10 @@ update3dVis = function (newData) {
         points[i].geometry.vertices[0].x = newData["3ddata"][i].x;
         points[i].geometry.vertices[0].y = newData["3ddata"][i].y;
         points[i].geometry.vertices[0].z = newData["3ddata"][i].z;
+        points[i].geometry.needsUpdate = true;
         let newColor = dataToColor(newData["3ddata"][i].values[0]);
         points[i].material.color.set(newData[0], newData[1], newData[2]);
+        points[i].material.needsUpdate = true;
     }
 }
 
@@ -92,7 +95,8 @@ function initializePointCloud(scene, data) {
                 data["3ddata"][i].y, data["3ddata"][i].z));
         let pointColor = dataToColor(data["3ddata"][i].values[0]);
         let material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE,
-                color: new THREE.Color(pointColor[0], pointColor[1], pointColor[2])});
+                color: new THREE.Color(pointColor[0], pointColor[1], pointColor[2]),
+                sizeAttenuation: false, map: pointSprite, alphaTest: 0.5, transparent: true});
         let point = new THREE.Points(geometry, material);
         points.push(point);
         scene.add(point);
