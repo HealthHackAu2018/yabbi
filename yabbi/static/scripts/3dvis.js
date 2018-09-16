@@ -4,6 +4,7 @@ const ORBIT_LOOKAT_COORD = new THREE.Vector3(0, 0, 5); // Where the camera point
 
 var is3dVisInitialized = false;
 var camera, controls, scene, renderer, points;
+// The sprite that makes the dots a nice circle
 var pointSprite = new THREE.TextureLoader().load( 'static/textures/disc.png' );
 
 
@@ -23,12 +24,13 @@ update3dVis = function (newData) {
         points[i].geometry.vertices[0].z = newData[i][2];;
         points[i].geometry.needsUpdate = true;
         let newHue = dataToColor(newData[i][3]);
+        // Set the new color using hue/saturation/luminosity
         points[i].material.color.set("hsl(" + newHue.toString() + ",100%,50%)");
         points[i].material.needsUpdate = true;
     }
 }
 
-/** Convert a data value to a hue value 0 - 255?
+/** Convert a data value to a hue value 0 - 255
  *
  * Parameters:
  * value: The stress or strain etc. */
@@ -45,7 +47,8 @@ dataToColor = function (value) {
  * 
  * Parameters:
  * data: The data where position is accessed as
-         data[pointIndex][0] // x position        */
+ *       data[pointIndex][0] // x position
+ *       data[pointIndex][3] // associated data value       */
 initialize3dVis = function (data) {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x000000);
