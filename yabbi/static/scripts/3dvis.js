@@ -22,13 +22,13 @@ update3dVis = function (newData) {
         points[i].geometry.vertices[0].y = newData[i][1];
         points[i].geometry.vertices[0].z = newData[i][2];;
         points[i].geometry.needsUpdate = true;
-        //let newHue = dataToColor(newData[i][3]);
-        points[i].material.color.set(0x00ff00);
+        let newHue = dataToColor(newData[i][3]);
+        points[i].material.color.set("hsl(" + newHue.toString() + ",100%,50%)");
         points[i].material.needsUpdate = true;
     }
 }
 
-/** Convert a data value to a hue value 0 - 1.0?
+/** Convert a data value to a hue value 0 - 255?
  *
  * Parameters:
  * value: The stress or strain etc. */
@@ -38,7 +38,7 @@ dataToColor = function (value) {
     // Make sure value is in range
     let newValue = (value > rangeLow) ? value : rangeLow;
     newValue = (newValue < rangeHigh) ? newValue : rangeHigh;
-    return ((newValue - rangeLow) / (rangeHigh - rangeLow));
+    return 255 * ((newValue - rangeLow) / (rangeHigh - rangeLow));
 }
 
 /** Initialise the scene, camera, points array etc 
