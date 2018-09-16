@@ -12,7 +12,7 @@ var pointSprite = new THREE.TextureLoader().load( 'static/textures/disc.png' );
  * Parameters:
  * newData: The new data, where position can be accessed via
  *          newData[pointIndex][0]          // x coordinate
- *          newData[pointIndex][3]          // strain value atm
+ *          newData[pointIndex][3]          // strain value atm */
 update3dVis = function (newData) {
     // Don't access out of array bounds
     let arrayLength = (newData.length > points.length) ?
