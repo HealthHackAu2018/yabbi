@@ -13,10 +13,10 @@ const getData = function () {
       dataType: "json",
       success: function(data) {
           // ToDo: something with the data
-          // if (is3dVisInitialized === false) {
-          //     initialize3dVis(data);
-          // }
-          //update3dVis(data);
+           if (is3dVisInitialized === false) {
+               initialize3dVis(data);
+           }
+          update3dVis(data);
           runSummaryVis(data)
       },
       error: function (err) {

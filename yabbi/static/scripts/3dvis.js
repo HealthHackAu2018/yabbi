@@ -6,28 +6,29 @@ var is3dVisInitialized = false;
 var camera, controls, scene, renderer, points;
 var pointSprite = new THREE.TextureLoader().load( 'static/textures/disc.png' );
 
+
 /** Update the position and color of 3d scatterplot points.
  * 
  * Parameters:
  * newData: The new data, where position can be accessed via
- *          newData["3ddata"][pointIndex].x          // x coordinate
- *          color????  */
+ *          newData[pointIndex][0]          // x coordinate
+ *          newData[pointIndex][3]          // strain value atm
 update3dVis = function (newData) {
     // Don't access out of array bounds
-    let arrayLength = (newData["3ddata"].length > points.length) ?
-            points.length : newData["3ddata"].length;
+    let arrayLength = (newData.length > points.length) ?
+            points.length : newData.length;
     for (let i = 0; i < arrayLength; i++) {
-        points[i].geometry.vertices[0].x = newData["3ddata"][i].x;
-        points[i].geometry.vertices[0].y = newData["3ddata"][i].y;
-        points[i].geometry.vertices[0].z = newData["3ddata"][i].z;
+        points[i].geometry.vertices[0].x = newData[i][0];
+        points[i].geometry.vertices[0].y = newData[i][1];
+        points[i].geometry.vertices[0].z = newData[i][2];;
         points[i].geometry.needsUpdate = true;
-        let newColor = dataToColor(newData["3ddata"][i].values[0]);
-        points[i].material.color.set(newData[0], newData[1], newData[2]);
+        //let newHue = dataToColor(newData[i][3]);
+        points[i].material.color.set(0x00ff00);
         points[i].material.needsUpdate = true;
     }
 }
 
-/** Convert a data value to rgb color array eg [0.2, 0.5, 1.0]
+/** Convert a data value to a hue value 0 - 1.0?
  *
  * Parameters:
  * value: The stress or strain etc. */
@@ -37,19 +38,17 @@ dataToColor = function (value) {
     // Make sure value is in range
     let newValue = (value > rangeLow) ? value : rangeLow;
     newValue = (newValue < rangeHigh) ? newValue : rangeHigh;
-    let greenAmount = (value - rangeLow) / (rangeHigh - rangeLow);
-    let redAmount = 1.0 - greenAmount;
-    return [redAmount, greenAmount, 0];
+    return ((newValue - rangeLow) / (rangeHigh - rangeLow));
 }
 
 /** Initialise the scene, camera, points array etc 
  * 
  * Parameters:
  * data: The data where position is accessed as
-         data["3ddata"][pointIndex].x        */
+         data[pointIndex][0] // x position        */
 initialize3dVis = function (data) {
     scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xcccccc);
+    scene.background = new THREE.Color(0x000000);
     camera = new THREE.PerspectiveCamera( 75, 
             window.innerWidth/window.innerHeight, 0.1, 1000 );
     camera.up.set(0,0,1); // Z axis is up instead of Y
@@ -87,15 +86,15 @@ initialize3dVis = function (data) {
 function initializePointCloud(scene, data) {
     var points = [];
 
-    for (let i = 0; i < data["3ddata"].length; i++) {
+    for (let i = 0; i < data.length; i++) {
         /** If performance is inadequate, try using THREE.BufferGeometry
          * instead of THREE.Geometry which is slower but friendlier */
         let geometry = new THREE.Geometry();
-        geometry.vertices.push(new THREE.Vector3(data["3ddata"][i].x,
-                data["3ddata"][i].y, data["3ddata"][i].z));
-        let pointColor = dataToColor(data["3ddata"][i].values[0]);
+        geometry.vertices.push(new THREE.Vector3(data[i][0],
+                data[i][1], data[i][2]));
+        let pointColor = dataToColor(data[i][3]);
         let material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE,
-                color: new THREE.Color(pointColor[0], pointColor[1], pointColor[2]),
+                color: new THREE.Color(0xffffff),
                 sizeAttenuation: false, map: pointSprite, alphaTest: 0.5, transparent: true});
         let point = new THREE.Points(geometry, material);
         points.push(point);
@@ -113,3 +112,6 @@ function pointCloudAnimate() {
 function render() {
     renderer.render(scene, camera);
 }
+
+
+console.log("LOADED 3dvis.js!");
