@@ -21,7 +21,7 @@
             integrity="sha256-lZFHibXzMHo3GGeehn1hudTAP3Sc0uKXBXAzHX1sjtk="
             crossorigin="anonymous"></script>
   </head>
-  <body>
+  <body onload="LinePlotLoad(); LinePlotAnimate();">
     <nav class="navbar navbar-default navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -77,6 +77,9 @@
     </script>
     <script
           src="{{ url_for('static', filename='scripts/3dvis.js') }}">
+    </script>
+    <script
+          src="{{ url_for('static', filename='scripts/svgPlot.js') }}">
     </script>
     <script
           src="{{ url_for('static', filename='scripts/summaryVis.js') }}">
