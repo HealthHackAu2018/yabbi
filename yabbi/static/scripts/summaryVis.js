@@ -13,27 +13,10 @@ let userSelectedIndex = 100
 let userSelectedField = "strain"
 
 runSummaryVis = function (data) {
-  let currentPoint = data["3ddata"][userSelectedIndex]
-  currentPoint.time = d3.timeSecond.offset(curentDate, data.time * 100)
-  currentPoint.valueIdx = data.meta["3ddata"].values[userSelectedField]
-  currentPoint.x = Math.abs(currentPoint.x) * 100
-  currentPoint.y = Math.abs(currentPoint.y) * 100
-  currentPoint.z = Math.abs(currentPoint.z) * 100
-
-  // ToDo: fix this shouldn't be done.
-  allData.push(currentPoint)
-  let ndx = crossfilter(allData)
-  if (initialised === false) {
-
-    var extents = getMinMax(allData)
-    var min = extents.min
-    var max = extents.max
-    makeBoxPlot(ndx, colorScale)
-    makeLineChart(ndx, colorScale, min, max)
-    dc.renderAll();
-    initialised = true
-  }
-  dc.redrawAll();
+  let currentPoint = data["3ddata"][userSelectedIndex]["values"][0];
+  //console.log(currentPoint);
+  OnNewData(currentPoint);
+  getData();
 }
 
 /**
