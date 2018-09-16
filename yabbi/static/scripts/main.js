@@ -4,7 +4,6 @@
  * Sends on update
  */
  var interval = 20;  // 1000 = 1 second, 3000 = 3 seconds
-var f = 0;
 const getData = function () {
   $.ajax({
       type: 'POST',
