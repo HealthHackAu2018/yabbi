@@ -18,6 +18,7 @@ runSummaryVis = function (data) {
   //console.log(data);
   //console.log(data[0]);
   var strain = data[userSelectedIndex][3];
+  setCursorPos(data[userSelectedIndex][0], data[userSelectedIndex][1], data[userSelectedIndex][2]);
   //console.log(data[currentPoint]);
   OnNewData(strain);
   //getPointTimeSeries(0);
