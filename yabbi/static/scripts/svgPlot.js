@@ -23,7 +23,7 @@ function LinePlotDraw() {
   var y0 = 0;
   var x1 = 0;
   var y1 = 0;
-  for (i = 1; i < 150; i++) {
+  for (i = 0; i < 150; i++) {
     x0 = i * 3;
     x1 = (i + 1) * 3;
     y0 = 99.0 - 700.0 * buffer[(index+i) % bufferLength];
@@ -38,11 +38,13 @@ function LinePlotDraw() {
 
 function LinePlotAnimate(t) {
   LinePlotDraw();
+  getData();
   window.requestAnimationFrame(LinePlotAnimate);
 }
 
-
+var gg = 0;
 function OnNewData(strain) {
+  if (gg==0) { gg = 1; console.log("OnNewData()   " + performance.now()); }
   index = (index + 1) % bufferLength;
   buffer[index] = strain;
 }

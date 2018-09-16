@@ -13,10 +13,16 @@ let userSelectedIndex = 100
 let userSelectedField = "strain"
 
 runSummaryVis = function (data) {
-  let currentPoint = data["3ddata"][userSelectedIndex]["values"][0];
+  //let currentPoint = data["3ddata"][userSelectedIndex]["values"][0];
   //console.log(currentPoint);
-  OnNewData(currentPoint);
-  getData();
+  //console.log(data);
+  //console.log(data[0]);
+  var currentPoint = 10;
+  var strain = data[currentPoint][3];
+  //console.log(data[currentPoint]);
+  OnNewData(strain);
+  //getPointTimeSeries(0);
+  //getData();
 }
 
 /**

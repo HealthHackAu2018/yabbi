@@ -10,6 +10,12 @@ def get_info():
     data = logicReader.read_in_data()
     return jsonify(data)
 
+@page.route('/get_point_time_series', methods=['POST'])
+def get_point_time_series():
+    action = request.get_json()
+    data = logicReader.get_point_time_series(0)
+    return jsonify(data)
+
 @page.route('/')
 def home():
     return render_template('page/home.html')
