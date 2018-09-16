@@ -20,7 +20,7 @@ function LinePlotDraw() {
   //
   // Generate SVG element
   //
-  var elementHTML = '<svg width="550" height="99" style="stroke:rgb(55,155,55);stroke-width:2;fill:none;" >';
+  var elementHTML = '<svg width="450" height="99" style="stroke:rgb(55,155,55);stroke-width:2;fill:none; border:1px solid black;" >';
   var x0 = 0;
   var y0 = 0;
   var x1 = 0;
