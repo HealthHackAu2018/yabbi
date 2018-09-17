@@ -1,11 +1,18 @@
 ## Description
 
-### To Run
+### To Run in Linux
 download miniconda for python 3 https://conda.io/miniconda.html
 conda create -n webenv python=3  
 source activate webenv  
 pip install -e .  
 ./run-build  
+
+### To Run in Windows
+manually install all the requirements in conda
+Install waitress
+`conda install -c conda-forge waitress`
+Run the webserver
+`waitress-serve --listen 127.0.0.1:8000 --call yabbi.app:create_app`
 
 ### To View
 127.0.0.1:8000
