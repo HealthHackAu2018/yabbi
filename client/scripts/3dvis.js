@@ -3,9 +3,9 @@ const DIV_ELEMENT_ID = 'threedvis'; // The div for three.js to work in
 const ORBIT_LOOKAT_COORD = new THREE.Vector3(0, 0, 5); // Where the camera points
 
 var is3dVisInitialized = false;
-var camera, controls, scene, renderer, points;
+var camera, controls, scene, renderer, pointCloud;
 // The sprite that makes the dots a nice circle
-var pointSprite = new THREE.TextureLoader().load( 'static/textures/disc.png' );
+var pointSprite = new THREE.TextureLoader().load( 'textures/disc.png' );
 var cursor1 = new THREE.Geometry();
 var cursor2 = new THREE.Geometry();
 var cursor3 = new THREE.Geometry();
@@ -32,18 +32,23 @@ line3.geometry.dynamic = true;
  *          newData[pointIndex][3]          // strain value atm */
 update3dVis = function (newData) {
     // Don't access out of array bounds
-    let arrayLength = (newData.length > points.length) ?
-            points.length : newData.length;
+    let arrayLength = 2047;
     for (let i = 0; i < arrayLength; i++) {
-        points[i].geometry.vertices[0].x = newData[i][0];
-        points[i].geometry.vertices[0].y = newData[i][1];
-        points[i].geometry.vertices[0].z = newData[i][2];;
-        points[i].geometry.needsUpdate = true;
-        let newHue = dataToColor(newData[i][3]);
-        // Set the new color using hue/saturation/luminosity
-        points[i].material.color.set("hsl(" + newHue.toString() + ",100%,50%)");
-        points[i].material.needsUpdate = true;
+        var j = 4*i;
+        pointCloud.geometry.vertices[i].x = newData[j + 0];
+        pointCloud.geometry.vertices[i].y = newData[j + 1];
+        pointCloud.geometry.vertices[i].z = newData[j + 2];
+        // Set the new color
+        let newHue = dataToColor(newData[j + 3]);
+        pointCloud.geometry.colors[i].r = newHue;// = new THREE.Color(newHue, 1.0-newHue, 0.6 - 0.2*newHue);
+        pointCloud.geometry.colors[i].g = 1.0 - newHue;
+        pointCloud.geometry.colors[i].b =  0.6 - 0.2*newHue;
+
+        if (i == userSelectedIndex) setCursorPos(newData[j + 0], newData[j + 1], newData[j + 2]);
     }
+    pointCloud.geometry.needsUpdate = true;
+    pointCloud.geometry.verticesNeedUpdate = true;
+    pointCloud.geometry.colorsNeedUpdate = true;
 }
 
 /** Convert a data value to a hue value 0 - 255
@@ -52,11 +57,11 @@ update3dVis = function (newData) {
  * value: The stress or strain etc. */
 dataToColor = function (value) {
     let rangeLow = 0;
-    let rangeHigh = 0.1;
+    let rangeHigh = 0.10;
     // Make sure value is in range
     let newValue = (value > rangeLow) ? value : rangeLow;
     newValue = (newValue < rangeHigh) ? newValue : rangeHigh;
-    return 255 * ((newValue - rangeLow) / (rangeHigh - rangeLow));
+    return ((newValue - rangeLow) / (rangeHigh - rangeLow));
 }
 
 var cursorX = 0;
@@ -85,8 +90,8 @@ initialize3dVis = function (data) {
     camera.position.set(25,25,10);
     renderer = new THREE.WebGLRenderer();
     var container = document.getElementById(DIV_ELEMENT_ID);
-    let w = container.offsetWidth;
-    let h = container.offsetHeight;
+    let w = 800;//container.offsetWidth;
+    let h = 600;//container.offsetHeight;
     renderer.setSize(w, h);
     container.appendChild( renderer.domElement );
 
@@ -99,9 +104,11 @@ initialize3dVis = function (data) {
     controls.target = ORBIT_LOOKAT_COORD;
 
     // Create points and add to scene. points is an array of THREE.Points.
-    points = initializePointCloud(scene, data);
+    initializePointCloud(scene, data);
     is3dVisInitialized = true;
     pointCloudAnimate();
+
+    console.log("LOADED 3dvis.js!");
 }
 
 /** Return an array of Points objects which each contain a point. To access:
@@ -116,31 +123,34 @@ initialize3dVis = function (data) {
 function initializePointCloud(scene, data) {
     var points = [];
 
-    for (let i = 0; i < data.length; i++) {
+    let geometry = new THREE.Geometry();
+    for (let i = 0; i < 2047; i++) {
         /** If performance is inadequate, try using THREE.BufferGeometry
          * instead of THREE.Geometry which is slower but friendlier */
-        let geometry = new THREE.Geometry();
-        geometry.vertices.push(new THREE.Vector3(data[i][0],
-                data[i][1], data[i][2]));
-        let pointColor = dataToColor(data[i][3]);
-        let material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE,
-                color: new THREE.Color(0xffffff),
-                sizeAttenuation: false, map: pointSprite, alphaTest: 0.5, transparent: true});
-        let point = new THREE.Points(geometry, material);
-        points.push(point);
-        scene.add(point);
+        var j = 4*i;
+        var x = data[j + 0];
+        var y = data[j + 1];
+        var z = data[j + 2];
+        geometry.vertices.push(new THREE.Vector3(x, y, z));
+        geometry.colors.push(new THREE.Color(0xff00ff));
     }
+    let material = new THREE.PointsMaterial({size: DEFAULT_POINT_SIZE,
+      vertexColors: THREE.VertexColors,
+      sizeAttenuation: false,
+      map: pointSprite,
+      alphaTest: 0.5,
+      transparent: true});
+
+    geometry.dynamic = true;
+    pointCloud = new THREE.Points(geometry, material);
+    scene.add(pointCloud);
 
     //if (showCursor)
     {
-
-
       scene.add(line1);
       scene.add(line2);
       scene.add(line3);
     }
-
-    return points;
 }
 
 /** The main loop. */
@@ -161,8 +171,5 @@ function render() {
   line3.geometry.vertices[1] = new THREE.Vector3( cursorX, cursorY, 100);
   line3.geometry.verticesNeedUpdate = true;
 
-    renderer.render(scene, camera);
+  renderer.render(scene, camera);
 }
-
-
-console.log("LOADED 3dvis.js!");

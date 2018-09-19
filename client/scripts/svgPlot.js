@@ -42,11 +42,11 @@ function LinePlotDraw() {
 }
 
 
-function LinePlotAnimate(t) {
-  LinePlotDraw();
-  getData();
-  window.requestAnimationFrame(LinePlotAnimate);
-}
+// function LinePlotAnimate(t) {
+//   LinePlotDraw();
+//   getData();
+//   window.requestAnimationFrame(LinePlotAnimate);
+// }
 
 function OnNewData(strain) {
   index = (index + 1) % bufferLength;
