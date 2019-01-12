@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Yabbi</title>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+		<style>
+			body {
+				background-color: #000;
+				margin: 0px;
+				overflow: hidden;
+			}
+
+			#info {
+				position: absolute;
+				color: #ffffff;
+				top: 0px;
+				width: 100%;
+				padding: 5px;
+				font-family:Monospace;
+				font-size:13px;
+				text-align:center;
+			}
+			a {
+				color: #fff;
+			}
+		</style>
+	</head>
+
+	<body onload="onLoad()">
+
+		<div id="container"></div>
+        <div id="info"><a href="https://threejs.org" target="_blank">three.js</a> - Yabbi</div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+		<script src="node_modules/three/build/three.js"></script>
+		<script src="node_modules/three/examples/js/controls/OrbitControls.js"></script>
+		<script src="node_modules/three/examples/js/WebGL.js"></script>
+		<script src="node_modules/three/examples/js/libs/stats.min.js"></script>
+		<script src='node_modules/three/examples/js/libs/dat.gui.min.js'></script>
+		<script src='node_modules/three/examples/js/lines/LineSegmentsGeometry.js'></script>
+		<script src='node_modules/three/examples/js/lines/LineGeometry.js'></script>
+		<script src='node_modules/three/examples/js/lines/WireframeGeometry2.js'></script>
+		<script src='node_modules/three/examples/js/lines/LineMaterial.js'></script>
+		<script src='node_modules/three/examples/js/lines/LineSegments2.js'></script>
+		<script src='node_modules/three/examples/js/lines/Line2.js'></script>
+        <script src='node_modules/three/examples/js/lines/Wireframe.js'></script>
+        <script src="node_modules/three/examples/js/math/Lut.js"></script>
+        <script src="node_modules/three/examples/js/renderers/Projector.js"></script>
+        <script src='js/LinePlot.js'></script>
+        <script src='js/PointCloud.js'></script>
+        <script src='js/visualizer.js'></script>
+        <script src='js/bundle.js'></script>
+        <script src='js/wsYabbiClient.js'></script>
+
+        
+		<script src="node_modules/three/examples/js/postprocessing/EffectComposer.js"></script>
+		<script src="node_modules/three/examples/js/postprocessing/RenderPass.js"></script>
+		<script src="node_modules/three/examples/js/postprocessing/ShaderPass.js"></script>
+		<script src="node_modules/three/examples/js/shaders/CopyShader.js"></script>
+		<script src="node_modules/three/examples/js/shaders/LuminosityHighPassShader.js"></script>
+        <script src="node_modules/three/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+     	<script>
+
+            var dataQueue = new Array();
+            var data = new Array();
+         
+            function updateData() {
+                if (dataQueue.length > 0) {
+                    var ds = dataQueue[dataQueue.length-1];
+                    var dflist = ds.getDataframeList();
+                    var data_x;
+                    var data_y;
+                    var data_z;
+                    var data_w;
+                    for(var i=0; i < dflist.length; ++i) {
+                        var name = dflist[i].getChannelname();
+                        if(name.includes("x"))
+                            data_x = dflist[i].getDataList();
+                        if(name.includes("y"))
+                            data_y = dflist[i].getDataList();
+                        if(name.includes("z"))
+                            data_z = dflist[i].getDataList();
+                        if(name.includes("w"))
+                            data_w = dflist[i].getDataList();
+                    }
+                    data = [data_x, data_y, data_z, data_w];
+                }
+                dataQueue = [];
+            }
+
+            function updateData_test() {
+                var time =  new Date().getTime() /10000.0;
+                data = [];
+                data.push([],[],[],[]);
+                for(let i=0; i < nPoints; ++i) {
+                    data[0].push(Math.sin(3*time+i/nPoints*6.28));
+                    data[1].push(Math.cos(3*time+i/nPoints*6.28));
+                    data[2].push(10*Math.cos(3*time+i/nPoints*6.28)+3*Math.sin(10*time+i/nPoints*6.28));
+                    data[3].push(i/nPoints*Math.cos(time));
+                }
+            }
+            function onLoad() {
+                startVisualiser();
+                updateData();
+                window.setInterval(updateData_test, 15);
+            }
+		</script>
+
+	</body>
+
+</html>
