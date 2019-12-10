@@ -241,8 +241,8 @@ do_session(tcp::socket& socket)
 					std::cout << "Requesting data" << std::endl;
 					int n = clientRequest.nframes();
 					for (int i(0); i < n; ++i) {
-						auto dataFrameSet = getDataFrameSet();
-				//		printDataFrameSet(dataFrameSet);
+						yabbi::DataFrameSet dataFrameSet = getDataFrameSet();
+						//		printDataFrameSet(dataFrameSet);
 						std::cout << "." << std::flush;
 						sendMessage(dataFrameSet, ws);
 						
@@ -282,9 +282,9 @@ int main(int argc, char* argv[])
 				"    websocket-server-sync 0.0.0.0 8080\n";
 			return EXIT_FAILURE;
 		}
-		std::string baseDir = "C:\\Users\\s2849511\\coding\\versioning\\yabbiv2\\data\\";
+		std::string baseDir = "../data/";
 		std::string nodesFilename = baseDir + "nodes.csv";
-		std::string strainsFilename = baseDir + "strains.csv";
+		std::string strainsFilename = baseDir + "strains_short.csv";
 		PointCloutInputConnector pcReader(nodesFilename, strainsFilename);
 
 		std::thread prod(std::ref(pcReader));

@@ -8,8 +8,10 @@ cmake_minimum_required(VERSION 2.8)
 
 set(Boost_USE_STATIC_LIBS   ON)
 set(Boost_USE_MULTITHREADED ON)
-find_package(Boost 1.66.0 REQUIRED COMPONENTS system date_time)
-find_package(protobuf CONFIG REQUIRED)
+find_package(Boost 1.71.0 REQUIRED COMPONENTS system date_time)
+set(protobuf_MODULE_COMPATIBLE ON CACHE BOOL "")
+find_package(protobuf REQUIRED)
+find_package(Threads REQUIRED)
 
 set_source_files_properties(${Proto_SRC} ${Proto_HEADERS} PROPERTIES GENERATED TRUE)
 protobuf_generate_cpp(Proto_SRC Proto_HEADERS yabbi.proto)
@@ -25,8 +27,8 @@ set(GeneratedProtobuf_INCLUDE_DIRS ${CMAKE_CURRENT_BINARY_DIR}
 include_directories(${Boost_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ${GeneratedProtobuf_INCLUDE_DIRS} ${Concurrency_INCLUDE_DIRS})
 
 add_executable(server server.cpp communication.h ${Proto_SRC} ${Proto_HEADERS})
-target_link_libraries(server ${Boost_LIBRARIES} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite Concurrency)
-
+target_link_libraries(server ${Boost_LIBRARIES} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite Concurrency Threads::Threads)
+target_include_directories(server PUBLIC ${Boost_INCLUDE_DIRS} ${Protobuf_INCLUDE_DIRS} ${GeneratedProtobuf_INCLUDE_DIRS} ${Concurrency_INCLUDE_DIRS})
 add_executable(client client.cpp communication.h ${Proto_SRC} ${Proto_HEADERS})
 target_link_libraries(client ${Boost_LIBRARIES} protobuf::libprotoc protobuf::libprotobuf protobuf::libprotobuf-lite)
 

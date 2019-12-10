@@ -4,17 +4,28 @@
 #include <string>
 #include <bitset>
 
+template<typename U>
+void sendMessageStr(const std::string& msg, U& ws);
+
+template<typename T, typename U>
+void sendMessage(const T& protoData, U& ws);
+
+template <typename T, typename U>
+void receiveMessage(T& protoData, U& ws);
+
 template<typename T, typename U>
 void sendMessage(const T& protoData, U& ws) {
 	std::string msg;
-	protoData.SerializeToString(&msg);
-	sendMessage(msg, ws);
+//	protoData.SerializeToString(&msg);
+	std::stringstream sstream;
+	protoData.SerializeToOstream(&sstream);
+	sendMessageStr(sstream.str(), ws);
 //	std::cout << "Sent: " << msg << std::endl;
 
 }
 	
 template<typename U>
-void sendMessage(const std::string& msg, U& ws) {
+void sendMessageStr(const std::string& msg, U& ws) {
 	ws.write(boost::asio::buffer(std::string(msg)));
 }
 
@@ -22,10 +33,9 @@ template <typename T, typename U>
 void receiveMessage(T& protoData, U& ws) {
 	boost::beast::multi_buffer buffer;
 	ws.read(buffer);
-	std::stringstream sstream;
-	sstream << boost::beast::buffers(buffer.data());
-	protoData.ParseFromString(sstream.str());
-	std::cout << "Received: " << std::hex << (int)sstream.str().c_str() << std::endl;
+	std::string stream = boost::beast::buffers_to_string(buffer.data());
+	protoData.ParseFromString(stream);
+	//std::cout << "Received: " << std::hex << (int)stream.c_str() << std::endl;
 }
 
 #endif
